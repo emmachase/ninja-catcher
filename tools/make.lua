@@ -1,6 +1,6 @@
 #!/usr/bin/env lua
-local server = os.getenv("npm_package_config_server") or "cloud-catcher.squiddev.cc"
-local out, err = io.open("_site/cloud.lua", "w")
+local server = os.getenv("npm_package_config_server") or "ninja.its-em.ma"
+local out, err = io.open("_site/ninja.lua", "w")
 if not out then error(err, 0) end
 
 local function has_content(line)
@@ -24,7 +24,7 @@ end
 
 for line in io.lines(root .. "init.lua") do
   if has_content(line) then
-    out:write(line:gsub("localhost:8080", server) .. "\n")
+    out:write(line:gsub("localhost:8090", server) .. "\n")
   end
 end
 

@@ -173,7 +173,7 @@ export class Main extends Component<MainProps, MainState> {
     return <div class={container}>
       {state.currentVDom(state)}
       <button class={`${Styles.actionButton} ${settingsCog}`}
-        title="Configure how CloudCatcher behaves"
+        title="Configure how ninjaCatcher behaves"
         onClick={this.openSettings}>
         <Cog />
       </button>

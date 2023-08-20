@@ -120,7 +120,7 @@ const site = (): RollupOptions => {
       !production && livereload(outDir),
 
       {
-        name: "cloud-catcher",
+        name: "ninja-catcher",
         async writeBundle() {
           await Promise.all([
             fs.copyFile("node_modules/requirejs/require.js", `${outDir}/require.js`),

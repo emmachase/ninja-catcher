@@ -1,4 +1,4 @@
---- Cloud catcher connection script. This acts both as a way of connecting
+--- ninja catcher connection script. This acts both as a way of connecting
 -- to a new session and interfacing with the session once connected.
 
 -- Cache some globals
@@ -8,12 +8,12 @@ local framebuffer = require "framebuffer"
 local encode = require "encode"
 local json = require "json"
 
-if _G.cloud_catcher then
-  -- If the cloud_catcher API is available, then we provide an interface for it
+if _G.ninja_catcher then
+  -- If the ninja_catcher API is available, then we provide an interface for it
   -- instead of trying to run another session.
   local usage = ([[
-  cloud: <subcommand> [args]
-  Communicate with the cloud-catcher session.
+  ninja: <subcommand> [args]
+  Communicate with the ninja-catcher session.
   Subcommands:
     edit <file> Open a file on the remote server.
     token       Display the token for this
@@ -22,7 +22,7 @@ if _G.cloud_catcher then
 
   local subcommand = ...
   if subcommand == "edit" or subcommand == "e" then
-    local arguments = argparse.create("cloud edit: Edit a file in the remote viewer")
+    local arguments = argparse.create("ninja edit: Edit a file in the remote viewer")
     arguments:add({ "file" }, { doc = "The file to upload", required = true })
     local result = arguments:parse(select(2, ...))
 
@@ -48,11 +48,11 @@ if _G.cloud_catcher then
     end
 
     -- Let's actually edit the thing!
-    local ok, err = _G.cloud_catcher.edit(resolved)
+    local ok, err = _G.ninja_catcher.edit(resolved)
     if not ok then error(err, 0) end
 
   elseif subcommand == "token" or subcommand == "t" then
-    print(_G.cloud_catcher.token())
+    print(_G.ninja_catcher.token())
 
   elseif argparse.is_help(subcommand) then
     print(usage)
@@ -62,13 +62,13 @@ if _G.cloud_catcher then
     error()
 
   else
-    error(("%q is not a cloud catcher subcommand, run with --help for more info"):format(subcommand), 0)
+    error(("%q is not a ninja catcher subcommand, run with --help for more info"):format(subcommand), 0)
   end
 
   return
 end
 
--- The actual cloud catcher client. Let's do some argument parsing!
+-- The actual ninja catcher client. Let's do some argument parsing!
 local current_path = shell.getRunningProgram()
 local current_name = fs.getName(current_path)
 
@@ -117,10 +117,10 @@ if not fs.isDir(sync_dir) then error(("%q is not a directory"):format(sync_dir),
 table.insert(capabilities, "file:host")
 
 -- Let's try to connect to the remote server
-local url = ("%s://localhost:8080/connect?id=%s&capabilities=%s"):format(
+local url = ("%s://ninja.its-em.ma/connect?id=%s&capabilities=%s"):format(
   args.http and "ws" or "wss", token, table.concat(capabilities, ","))
 local remote, err = http.websocket(url)
-if not remote then error("Cannot connect to cloud-catcher server: " .. err, 0) end
+if not remote then error("Cannot connect to ninja-catcher server: " .. err, 0) end
 
 -- Keep track of what capabilities the remote server has. We do this up here
 -- so the API has information about it.
@@ -128,8 +128,8 @@ local server_term, server_file_edit, server_file_host = false, false, false
 
 -- We're all ready to go, so let's inject our API and shell hooks
 do
-  local max_packet_size = 16384
-  _G.cloud_catcher = {
+  local max_packet_size = 200000
+  _G.ninja_catcher = {
     token = function() return token end,
     edit = function(file, force)
       -- Check the remote client exists
@@ -171,7 +171,7 @@ do
     end
   }
 
-  shell.setAlias("cloud", "/" .. current_path)
+  shell.setAlias("ninja", "/" .. current_path)
 
   local function complete_multi(text, options)
     local results = {}
@@ -190,7 +190,7 @@ do
   local subcommands = { { "edit", true }, { "token", false } }
   shell.setCompletionFunction(current_path, function(shell, index, text, previous_text)
     -- Should never happen, but let's be safe
-    if _G.cloud_catcher == nil then return end
+    if _G.ninja_catcher == nil then return end
 
     if index == 1 then
       return complete_multi(text, subcommands)
@@ -318,10 +318,10 @@ while ok and (not co or coroutine.status(co) ~= "dead") do
       if code == 0x11 then -- TerminalEvents
         -- Just forward events. We map key/key_up events to the correct version.
         for _, event in ipairs(packet.events) do
-          if event.name == "cloud_catcher_key" then
+          if event.name == "ninja_catcher_key" then
             local key = keys[event.args[1]]
             if type(key) == "number" then push_event { n = 3, "key", key, event.args[2] } end
-          elseif event.name == "cloud_catcher_key_up" then
+          elseif event.name == "ninja_catcher_key_up" then
               local key = keys[event.args[1]]
               if type(key) == "number" then push_event { n = 2, "key_up", key } end
           else
@@ -436,8 +436,8 @@ if previous_term == parent_term then
 end
 
 -- Clear our ugly completion hacks
-_G.cloud_catcher = nil
-shell.clearAlias("cloud")
+_G.ninja_catcher = nil
+shell.clearAlias("ninja")
 shell.getCompletionInfo()[current_path] = nil
 
 if remote ~= nil then remote.close() end

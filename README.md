@@ -1,11 +1,11 @@
-# Cloud Catcher
+# ninja Catcher
 
 A web interface for ComputerCraft computers
 
 ## Getting started
- - Visit https://cloud-catcher.squiddev.cc/
+ - Visit https://ninja.its-em.ma/
  - Follow the instructions there
- - One can run `cloud edit <filename>` to edit a file remotely.
+ - One can run `ninja edit <filename>` to edit a file remotely.
 
 ## Features
 ![Running paint remotely](img/01-run-paint.png "Running paint remotely")

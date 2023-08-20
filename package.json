@@ -1,5 +1,5 @@
 {
-  "name": "cloud-catcher",
+  "name": "ninja-catcher",
   "version": "1.0.0",
   "description": "A ComputerCraft terminal renderer on the web",
   "type": "module",
@@ -16,7 +16,7 @@
     "cloud-catcher": "_bin/server.cjs"
   },
   "config": {
-    "server": "cloud-catcher.squiddev.cc"
+    "server": "ninja.its-em.ma"
   },
   "files": [
     "_bin",
@@ -32,8 +32,10 @@
     "host": "node _bin/server.cjs"
   },
   "dependencies": {
+    "bufferutil": "^4.0.1",
     "diff": "^5.0.0",
     "prom-client": "^14.0.0",
+    "utf-8-validate": "^5.0.2",
     "ws": "^8.2.0"
   },
   "devDependencies": {

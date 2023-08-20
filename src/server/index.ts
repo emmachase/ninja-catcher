@@ -94,7 +94,7 @@ server.on("request", (request: http.IncomingMessage, response: http.ServerRespon
 
 collectDefaultMetrics({ register: metrics });
 new Gauge({
-  name: "cloudcatcher_connections",
+  name: "ninjacatcher_connections",
   help: "Number of incoming websocket connections",
   collect: function () {
     let count = 0;
@@ -103,14 +103,14 @@ new Gauge({
   }
 });
 new Gauge({
-  name: "cloudcatcher_tokens",
+  name: "ninjacatcher_tokens",
   help: "Number of active tokens",
   collect: function () {
     this.set(connections.size);
   }
 });
 const totalConnections = new Counter({
-  name: "cloudcatcher_opened_connections",
+  name: "ninjacatcher_opened_connections",
   help: "Total number of opened connections",
 });
 
@@ -352,7 +352,7 @@ if (process.env.LISTEN_PID) {
   server.listen({ fd: 3 });
 } else {
   // Otherwise listen on a port
-  const port = parseInt(process.env.CLOUD_CATCHER_PORT ?? "8080");
+  const port = parseInt(process.env.CLOUD_CATCHER_PORT ?? "8090");
   if (port != port) throw new Error(`Cannot parse port from CLOUD_CATCHER_PORT=${process.env.CLOUD_CATCHER_PORT}`)
 
   console.log(`Listening on ${port}`);

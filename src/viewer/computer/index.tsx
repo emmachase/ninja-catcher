@@ -55,10 +55,10 @@ type ComputerState = {
 };
 
 const windowTitle = (id: number | null, label: string | null) => {
-  if (id === null && label === null) return "Cloud Catcher";
-  if (id === null) return `${label} | Cloud Catcher`;
-  if (label === null) return `Computer #${id} | Cloud Catcher`;
-  return `${label} (Computer #${id}) | Cloud Catcher`;
+  if (id === null && label === null) return "ninja Catcher";
+  if (id === null) return `${label} | ninja Catcher`;
+  if (label === null) return `Computer #${id} | ninja Catcher`;
+  return `${label} (Computer #${id}) | ninja Catcher`;
 };
 
 export class Computer extends Component<ComputerProps, ComputerState> implements ComputerActionable {
@@ -408,11 +408,11 @@ export class Computer extends Component<ComputerProps, ComputerState> implements
   }
 
   public keyDown(key: KeyCode, repeat: boolean): void {
-    this.queueEvent("cloud_catcher_key", [keyName(key), repeat]);
+    this.queueEvent("ninja_catcher_key", [keyName(key), repeat]);
   }
 
   public keyUp(key: KeyCode): void {
-    this.queueEvent("cloud_catcher_key_up", [keyName(key)]);
+    this.queueEvent("ninja_catcher_key_up", [keyName(key)]);
   }
 
   public turnOn(): void {
