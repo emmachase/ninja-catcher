@@ -67,14 +67,14 @@ const server = http.createServer();
 const connections = new Map<Token, Connection>();
 
 let defaultHandler: (url: url.UrlWithParsedQuery, request: http.IncomingMessage, response: http.ServerResponse) => void;
-if (process.env.NODE_ENV === "production") {
-  defaultHandler = (_url, _request, response) => {
-    response.writeHead(404, { "Content-Type": "text/html" });
-    response.end("Not Found", "utf-8");
-  };
-} else {
-  defaultHandler = handle("_site");
-}
+// if (process.env.NODE_ENV === "production") {
+//   defaultHandler = (_url, _request, response) => {
+//     response.writeHead(404, { "Content-Type": "text/html" });
+//     response.end("Not Found", "utf-8");
+//   };
+// } else {
+defaultHandler = handle("_site");
+// }
 
 server.on("request", (request: http.IncomingMessage, response: http.ServerResponse) => {
   const requestUrl = url.parse(request.url || "", true);
@@ -352,9 +352,9 @@ if (process.env.LISTEN_PID) {
   server.listen({ fd: 3 });
 } else {
   // Otherwise listen on a port
-  const port = parseInt(process.env.CLOUD_CATCHER_PORT ?? "8090");
+  const port = parseInt(process.env.CLOUD_CATCHER_PORT ?? "8080");
   if (port != port) throw new Error(`Cannot parse port from CLOUD_CATCHER_PORT=${process.env.CLOUD_CATCHER_PORT}`)
 
   console.log(`Listening on ${port}`);
-  server.listen({ host: "localhost", port, });
+  server.listen({ host: "0.0.0.0", port, });
 }

@@ -63,7 +63,7 @@
           devShells.default = output.devShells.default.overrideAttrs (old: {
             shellHook = ''
               ${old.shellHook}
-              export npm_package_config_server=localhost:8090
+              export npm_package_config_server=localhost:8080
             '';
           });
 

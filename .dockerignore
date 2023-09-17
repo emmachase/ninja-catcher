@@ -1,0 +1,16 @@
+# Docker-related #
+##################
+Dockerfile
+.dockerignore
+
+# VCS folders #
+###############
+.git
+.svn
+.hg
+.github
+
+# Build #
+#########
+build/
+dist/
