@@ -16,7 +16,7 @@
     "cloud-catcher": "_bin/server.cjs"
   },
   "config": {
-    "server": "n.c.ki"
+    "server": "ninja.its-em.ma"
   },
   "files": [
     "_bin",
