@@ -3,7 +3,7 @@
 A web interface for ComputerCraft computers
 
 ## Getting started
- - Visit https://n.c.ki/
+ - Visit https://ninja.its-em.ma/
  - Follow the instructions there
  - One can run `ninja edit <filename>` to edit a file remotely.
 
